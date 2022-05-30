@@ -31,15 +31,21 @@ public class HomeViewModel extends ViewModel {
         return mText;
     }
     public LiveData<List<RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO>> getComicList(){
-        requestRankComicList(1);
-        return mComicList;
-    }
-    public LiveData<List<RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO>> getMoreComicList(int i) {
-        requestRankComicList(i);
         return mComicList;
     }
 
-    public void requestRankComicList(int i){
+    public void getInitComicList() {
+        requestRankComicList(1, INIT);
+    }
+
+    public void getMoreComicList(int i) {
+        requestRankComicList(i, APPEND);
+    }
+
+    // 0初始化，1新增
+    final int INIT = 0;
+    final int APPEND = 1;
+    public void requestRankComicList(int i, int type){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://app.u17.com/v3/appV3_3/android/phone/list/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -52,7 +58,12 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onResponse(Call<RankComicListBean> call, Response<RankComicListBean> response) {
 //                mText.setValue(response.body().getData().getReturnData().getComics().get(0).getDescription());
-                mComicList.setValue(response.body().getData().getReturnData().getComics());
+                if (type == INIT)
+                    mComicList.setValue(response.body().getData().getReturnData().getComics());
+                else {
+                    mComicList.getValue().addAll(response.body().getData().getReturnData().getComics());
+                    mComicList.postValue(mComicList.getValue());
+                }
 //                mText.setValue(response.body().getData().getReturnData().getComics().get(0).getDescription());
                 x++;
                 Log.d("123","请求次数:"+x);

@@ -49,9 +49,16 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider(this).get(HomeViewModel.class);
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-        //初始化控件
+
         init();
+
+        return binding.getRoot();
+    }
+
+    //初始化控件
+    public void init(){
+        homeRecyclerView = binding.homeRecyclerView;
+        swipeRefreshLayout = binding.swipeRefresh;
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         homeRecyclerView.setLayoutManager(manager);
@@ -77,12 +84,12 @@ public class HomeFragment extends Fragment {
                 getMoreComicsDTO(page);
             }
         });
-        return root;
-    }
 
-    public void init(){
-        homeRecyclerView = binding.homeRecyclerView;
-        swipeRefreshLayout = binding.swipeRefresh;
+        homeViewModel.getComicList().observe(getViewLifecycleOwner(),(value)->{
+            comicList.clear();
+            comicList.addAll(value);
+            adapter.notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -92,19 +99,11 @@ public class HomeFragment extends Fragment {
     }
     //获取ViewModel请求的ComicsDTO
     public void getComicsDTO(){
-        homeViewModel.getComicList().observe(getViewLifecycleOwner(),(value)->{
-            comicList.clear();
-            comicList.addAll(value);
-            adapter.notifyDataSetChanged();
-        });
+        homeViewModel.getInitComicList();
     }
     //获取加载更多时请求的的ComicsDTO
     public void getMoreComicsDTO(int i){
-        homeViewModel.getMoreComicList(i).observe(getViewLifecycleOwner(),(value)->{
-            comicList.addAll(value);
-            adapter.notifyDataSetChanged();
-            page++;
-        });
+        homeViewModel.getMoreComicList(i);
     }
 
     //创建recyclerview适配器
