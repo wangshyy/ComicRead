@@ -34,11 +34,11 @@ public class HomeViewModel extends ViewModel {
         return mComicList;
     }
 
-    public void getInitComicList() {
+    public void setInitComicList() {
         requestRankComicList(1, INIT);
     }
 
-    public void getMoreComicList(int i) {
+    public void setMoreComicList(int i) {
         requestRankComicList(i, APPEND);
     }
 
@@ -51,17 +51,19 @@ public class HomeViewModel extends ViewModel {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         ComicAPI comicAPI = retrofit.create(ComicAPI.class);
-        Call<RankComicListBean> comicListData = comicAPI.getRankComicList("total","2","xiaomi","7de42d2e",
+        Call<RankComicListBean> comicListBeanCall = comicAPI.getRankComicList("total","2","xiaomi","7de42d2e",
                 "450010","MI+6","f5c9b6c9284551ad",i+"");
         //执行异步操作
-        comicListData.enqueue(new Callback<RankComicListBean>() {
+        comicListBeanCall.enqueue(new Callback<RankComicListBean>() {
             @Override
             public void onResponse(Call<RankComicListBean> call, Response<RankComicListBean> response) {
 //                mText.setValue(response.body().getData().getReturnData().getComics().get(0).getDescription());
                 if (type == INIT)
                     mComicList.setValue(response.body().getData().getReturnData().getComics());
                 else {
+                    //获取当前值并添加..
                     mComicList.getValue().addAll(response.body().getData().getReturnData().getComics());
+                    //数据改变，通知到observe回调
                     mComicList.postValue(mComicList.getValue());
                 }
 //                mText.setValue(response.body().getData().getReturnData().getComics().get(0).getDescription());

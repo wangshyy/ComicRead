@@ -12,6 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComicRead">
         <activity
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:name=".ui.read.ReadActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.comicdetail.ComicDetailActivity"
             android:exported="false" />
         <activity

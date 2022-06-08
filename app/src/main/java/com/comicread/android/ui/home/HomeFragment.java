@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,8 +28,6 @@ import com.comicread.android.R;
 import com.comicread.android.databinding.FragmentHomeBinding;
 import com.comicread.android.gson.RankComicListBean;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +38,12 @@ public class HomeFragment extends Fragment {
     private Adapter adapter;
     private HomeViewModel homeViewModel;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Toolbar toolbar;
     public static final int TYPE_NORMAL = 0;
     public static final int TYPE_FOOTER = 1;
-    int page=2;//初始化加载更多时的请求页码
+    //加载更多时，初始请求页码
+    int page=2;
+
     private List<RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO> comicList = new ArrayList<>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -59,18 +62,21 @@ public class HomeFragment extends Fragment {
     public void init(){
         homeRecyclerView = binding.homeRecyclerView;
         swipeRefreshLayout = binding.swipeRefresh;
+        toolbar = binding.toolbar;
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        toolbar.setTitle(R.string.title_home);
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         homeRecyclerView.setLayoutManager(manager);
         adapter = new Adapter(comicList);
         homeRecyclerView.setAdapter(adapter);
-        getComicsDTO();
+        setComicsDTO();
         swipeRefreshLayout.setColorSchemeResources(androidx.navigation.ui.R.color.design_default_color_primary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 //下拉刷新时，重新获取ViewModel请求的ComicsDTO
-                getComicsDTO();
+                setComicsDTO();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -81,7 +87,7 @@ public class HomeFragment extends Fragment {
                 Log.d("123","page:"+page);
                 Log.d("123",adapter.getItemCount()+"");
                 Log.d("123","comicListSize："+comicList.size());
-                getMoreComicsDTO(page);
+                setMoreComicsDTO(page);
             }
         });
 
@@ -97,13 +103,13 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    //获取ViewModel请求的ComicsDTO
-    public void getComicsDTO(){
-        homeViewModel.getInitComicList();
+    //获取ViewModel请求的ComicsDTO的列表
+    public void setComicsDTO(){
+        homeViewModel.setInitComicList();
     }
-    //获取加载更多时请求的的ComicsDTO
-    public void getMoreComicsDTO(int i){
-        homeViewModel.getMoreComicList(i);
+    //获取加载更多时请求的的ComicsDTO的列表
+    public void setMoreComicsDTO(int i){
+        homeViewModel.setMoreComicList(i);
     }
 
     //创建recyclerview适配器
@@ -144,7 +150,7 @@ public class HomeFragment extends Fragment {
             if (viewType == TYPE_NORMAL) {
                 View view = LayoutInflater.from(getContext()).inflate(R.layout.home_item,parent,false);
                 final ViewHolder viewHolder = new ViewHolder(view);
-                viewHolder.mainImage.setOnClickListener(new View.OnClickListener() {
+                view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         int position = viewHolder.getAdapterPosition();
@@ -152,6 +158,7 @@ public class HomeFragment extends Fragment {
                         Intent intent = new Intent(getContext(), ComicDetailActivity.class);
                         intent.putExtra("comic_id",comicList.getComicId());
                         startActivity(intent);
+
                     }
                 });
                 return (ViewHolder) viewHolder;

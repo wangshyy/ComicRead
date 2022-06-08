@@ -7,13 +7,19 @@
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/drawable/ctgborder.xml" value="0.194" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/drawable/imgboeder.xml" value="0.194" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/drawable/imgborder.xml" value="0.194" />
+        <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/drawable/searchbox.xml" value="0.2575" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/activity_comic_detail.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/activity_read.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/comic_detail_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/fragment_dashboard.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/fragment_home.xml" value="0.36614583333333334" />
+        <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/fragment_notifications.xml" value="0.22552083333333334" />
+        <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/fragment_read.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/home_item.xml" value="0.36614583333333334" />
         <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/home_item_footer.xml" value="0.36614583333333334" />
+        <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/layout/read_fragment.xml" value="0.36614583333333334" />
+        <entry key="..\:/Android_wsy/AndroidWorkSpace/ComicRead/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>
