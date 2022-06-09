@@ -1,7 +1,5 @@
 package com.comicread.android.gson;
 
-import android.net.Uri;
-
 import java.util.List;
 
 public class RankComicListBean {

@@ -101,7 +101,7 @@ public class SearchResultBean {
 
             public static class ComicsDTO {
                 private List<String> tags;
-                private Integer comicId;
+                private String comicId;
                 private List<String> bgCategory;
                 private String cover;
                 private String passChapterNum;
@@ -123,11 +123,11 @@ public class SearchResultBean {
                     this.tags = tags;
                 }
 
-                public Integer getComicId() {
+                public String getComicId() {
                     return comicId;
                 }
 
-                public void setComicId(Integer comicId) {
+                public void setComicId(String comicId) {
                     this.comicId = comicId;
                 }
 

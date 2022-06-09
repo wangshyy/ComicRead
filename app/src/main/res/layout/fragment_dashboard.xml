@@ -26,7 +26,7 @@
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:orientation="horizontal"
                 >
@@ -36,22 +36,25 @@
                     android:layout_height="match_parent"
                     android:background="@drawable/searchbox">
                     <EditText
+                        android:id="@+id/search_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:maxLines="1"
                         android:hint="在此输入..."
-                        android:textSize="17sp"
+                        android:textSize="15sp"
                         android:textColor="@color/gray31"
-                        android:background="@null"/>
+                        android:background="@null"
+                        android:imeOptions="actionSearch"
+                        android:singleLine="true"/>
                 </LinearLayout>
                 <Button
+                    android:id="@+id/search_close_btn"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:text="取消"
-                    android:textSize="17sp"
+                    android:textSize="15sp"
                     android:textColor="@color/gray31"
                     android:background="@null"/>
             </LinearLayout>
@@ -61,7 +64,7 @@
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/home_recycler_view"
+                    android:id="@+id/search_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
                 </androidx.recyclerview.widget.RecyclerView>

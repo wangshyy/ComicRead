@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.comicread.android.ComicAPI;
+import com.comicread.android.data.ComicBean;
 import com.comicread.android.gson.RankComicListBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -20,7 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
-    private MutableLiveData<List<RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO>> mComicList;
+    private MutableLiveData<List<ComicBean>> mComicList;
     private int x=0;
     public HomeViewModel() {
         mText = new MutableLiveData<>();
@@ -30,7 +32,7 @@ public class HomeViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
-    public LiveData<List<RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO>> getComicList(){
+    public LiveData<List<ComicBean>> getComicList(){
         return mComicList;
     }
 
@@ -58,11 +60,19 @@ public class HomeViewModel extends ViewModel {
             @Override
             public void onResponse(Call<RankComicListBean> call, Response<RankComicListBean> response) {
 //                mText.setValue(response.body().getData().getReturnData().getComics().get(0).getDescription());
-                if (type == INIT)
-                    mComicList.setValue(response.body().getData().getReturnData().getComics());
+                List<RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO> comicsDTOList = response.body().getData().getReturnData().getComics();
+                List<ComicBean> comicBeanList = new ArrayList<>();
+                for (RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO comicsDTO : comicsDTOList){
+                    ComicBean comic = new ComicBean(comicsDTO.getCover(),comicsDTO.getName(),
+                            comicsDTO.getComicId(),comicsDTO.getDescription(),comicsDTO.getAuthor(),comicsDTO.getTags());
+                    comicBeanList.add(comic);
+                }
+                if (type == INIT) {
+                    mComicList.setValue(comicBeanList);
+                }
                 else {
                     //获取当前值并添加..
-                    mComicList.getValue().addAll(response.body().getData().getReturnData().getComics());
+                    mComicList.getValue().addAll(comicBeanList);
                     //数据改变，通知到observe回调
                     mComicList.postValue(mComicList.getValue());
                 }
