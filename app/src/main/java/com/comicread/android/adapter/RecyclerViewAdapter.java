@@ -91,7 +91,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ViewHolder) holder).comicCategory.setText(comic.getTags().get(0));
             ((ViewHolder) holder).comicSynopsis.setText(comic.getDescription());
         }else if (holder instanceof FooterViewHolder){
-            ((FooterViewHolder) holder).loadMoreText.setText("加载中...");
+            if (mComicList.size()>0) {
+                ((FooterViewHolder) holder).loadMoreText.setText("加载中...");
+            }
         }
     }
 

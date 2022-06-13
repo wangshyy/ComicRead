@@ -46,9 +46,6 @@ public class DashboardViewModel extends ViewModel {
                     comicBeanList.add(comic);
                 }
 
-                if (comicList.getValue()!=null){
-                    comicList.getValue().clear();
-                }
                 comicList.setValue(comicBeanList);
                 comicList.postValue(comicList.getValue());
             }

@@ -1,11 +1,14 @@
 package com.comicread.android.ui.dashboard;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import com.comicread.android.R;
 import com.comicread.android.adapter.RecyclerViewAdapter;
 import com.comicread.android.data.ComicBean;
 import com.comicread.android.databinding.FragmentDashboardBinding;
+import com.comicread.android.either.EndlessRecyclerOnScrollListener;
 import com.comicread.android.gson.SearchResultBean;
 
 import java.util.ArrayList;
@@ -64,19 +68,45 @@ public class DashboardFragment extends Fragment {
         recyclerViewAdapter = new RecyclerViewAdapter(mComicList);
         searchRecyclerView.setAdapter(recyclerViewAdapter);
         search();
-        swipeRefreshLayout = binding.swipeRefresh;
 
+        swipeRefreshLayout = binding.swipeRefresh;
         //下拉刷新
+        swipeRefreshLayout.setColorSchemeResources(androidx.navigation.ui.R.color.design_default_color_primary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getmComicList();
-                swipeRefreshLayout.setRefreshing(false);
+                if (mComicList.size()>0) {
+                    getmComicList();//重新获取列表数据
+                }else {
+                    Toast.makeText(getContext(), "请先搜索漫画！", Toast.LENGTH_SHORT).show();
+                }
+                swipeRefreshLayout.setRefreshing(false);//隐藏刷新图标
             }
+        });
+        //上拉加载更多
+        searchRecyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+            @Override
+            public void onLoadMore() {
+            }
+        });
+
+        /**
+        *取消按钮监听
+         1、隐藏软键盘
+         2、清除输入框内容并取消焦点
+         */
+        searchCloseBtn.setOnClickListener((view)->{
+            hideKeyboard();
+            searchEditText.setText("");
+            searchEditText.clearFocus();
         });
     }
     private void search(){
-        //监听软键盘回车
+        /**
+         *监听软键盘回车
+         当点击回车按钮时获取输入框内容
+         调用getmComicList()获取相应列表
+         */
         searchEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
@@ -92,12 +122,19 @@ public class DashboardFragment extends Fragment {
     private void getmComicList(){
         if (!searchText.equals("")){
             dashboardViewModel.getComicList(searchText).observe(getViewLifecycleOwner(),(value)->{
+                mComicList.clear();
                 mComicList.addAll(value);
                 recyclerViewAdapter.notifyDataSetChanged();
             });
         } else
             Toast.makeText(getContext(), "请输入要搜索漫画！", Toast.LENGTH_SHORT).show();
 
+    }
+    //隐藏软键盘
+    private void hideKeyboard(){
+        InputMethodManager inputMethodManager = (InputMethodManager) getView().getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null)
+            inputMethodManager.hideSoftInputFromWindow(getView().getWindowToken(),0);
     }
     @Override
     public void onDestroyView() {
