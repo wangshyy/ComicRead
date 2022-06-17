@@ -42,7 +42,7 @@ public class DashboardViewModel extends ViewModel {
                 List<ComicBean> comicBeanList = new ArrayList<>();
                 for(SearchResultBean.DataDTO.ReturnDataDTO.ComicsDTO comicsDTO: comicsDTOList){
                     ComicBean comic = new ComicBean(comicsDTO.getCover(),comicsDTO.getName(),comicsDTO.getComicId(),
-                            comicsDTO.getDescription(),comicsDTO.getAuthor(),comicsDTO.getTags());
+                            comicsDTO.getDescription(),comicsDTO.getAuthor(),comicsDTO.getTags().get(0));
                     comicBeanList.add(comic);
                 }
 

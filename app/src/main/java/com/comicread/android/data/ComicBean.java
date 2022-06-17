@@ -1,7 +1,9 @@
 package com.comicread.android.data;
 
-import java.util.List;
+import org.greenrobot.greendao.annotation.Entity;
 
+import org.greenrobot.greendao.annotation.Generated;
+@Entity
 public class ComicBean {
 
     private String cover;
@@ -9,9 +11,13 @@ public class ComicBean {
     private String comicId;
     private String description;
     private String author;
-    private List<String> tags;
+    private String tags;
 
-    public ComicBean(String cover, String name, String comicId, String description, String author, List<String> tags) {
+
+
+    @Generated(hash = 598414780)
+    public ComicBean(String cover, String name, String comicId, String description,
+            String author, String tags) {
         this.cover = cover;
         this.name = name;
         this.comicId = comicId;
@@ -19,6 +25,12 @@ public class ComicBean {
         this.author = author;
         this.tags = tags;
     }
+
+    @Generated(hash = 1877764603)
+    public ComicBean() {
+    }
+
+    
 
     public String getCover() {
         return cover;
@@ -60,11 +72,11 @@ public class ComicBean {
         this.author = author;
     }
 
-    public List<String> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 }

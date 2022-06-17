@@ -64,7 +64,7 @@ public class HomeViewModel extends ViewModel {
                 List<ComicBean> comicBeanList = new ArrayList<>();
                 for (RankComicListBean.DataDTO.ReturnDataDTO.ComicsDTO comicsDTO : comicsDTOList){
                     ComicBean comic = new ComicBean(comicsDTO.getCover(),comicsDTO.getName(),
-                            comicsDTO.getComicId(),comicsDTO.getDescription(),comicsDTO.getAuthor(),comicsDTO.getTags());
+                            comicsDTO.getComicId(),comicsDTO.getDescription(),comicsDTO.getAuthor(),comicsDTO.getTags().get(0));
                     comicBeanList.add(comic);
                 }
                 if (type == INIT) {

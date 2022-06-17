@@ -48,12 +48,11 @@
             android:layout_marginTop="10dp"
             android:text="comicSynopsis"/>
         <Button
-            android:id="@+id/collection_comic"
+            android:id="@+id/collection_btn"
             android:layout_width="75dp"
             android:layout_height="35dp"
             android:background="@drawable/btnborder"
             android:textColor="#FF6A6A"
-            android:layout_marginTop="10dp"
-            android:text="收藏"/>
+            android:layout_marginTop="10dp"/>
     </LinearLayout>
 </LinearLayout>
