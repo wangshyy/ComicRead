@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment {
 
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         homeRecyclerView.setLayoutManager(manager);
-        recyclerViewAdapter = new RecyclerViewAdapter(comicList);
+        recyclerViewAdapter = new RecyclerViewAdapter(comicList,true);
         homeRecyclerView.setAdapter(recyclerViewAdapter);
         setComicsList();
         swipeRefreshLayout.setColorSchemeResources(androidx.navigation.ui.R.color.design_default_color_primary);
@@ -70,6 +70,7 @@ public class HomeFragment extends Fragment {
                 //下拉刷新时，重新获取ViewModel请求的ComicsDTO
                 setComicsList();
                 swipeRefreshLayout.setRefreshing(false);
+                page = 2;
             }
         });
 

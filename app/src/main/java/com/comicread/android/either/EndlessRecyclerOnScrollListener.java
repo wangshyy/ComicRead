@@ -29,7 +29,10 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
     @Override
     public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        isSlidingUpward = dy>0;
+        if (dy > 0)
+            isSlidingUpward = true;
+        else
+            isSlidingUpward = false;
     }
 
     public abstract void onLoadMore();

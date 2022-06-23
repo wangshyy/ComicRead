@@ -1,9 +1,11 @@
 package com.comicread.android.ui.notifications;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -45,7 +48,7 @@ public class NotificationsFragment extends Fragment {
 
         tabLayout = binding.tabLayout;
         viewPager2 = binding.viewPager2;
-        viewPager2.setAdapter(new FragmentAdapter(getActivity()));
+        viewPager2.setAdapter(new FragmentAdapter(getChildFragmentManager()));
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -60,6 +63,8 @@ public class NotificationsFragment extends Fragment {
             }
         });
         tabLayoutMediator.attach();
+
+
     }
     @Override
     public void onDestroyView() {
@@ -68,8 +73,8 @@ public class NotificationsFragment extends Fragment {
     }
     private class FragmentAdapter extends FragmentStateAdapter {
 
-        public FragmentAdapter(@NonNull FragmentActivity fragmentActivity) {
-            super(fragmentActivity);
+        public FragmentAdapter(@NonNull FragmentManager fragmentManager) {
+            super(fragmentManager);
         }
 
         @NonNull

@@ -3,10 +3,13 @@ package com.comicread.android.data;
 import org.greenrobot.greendao.annotation.Entity;
 
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
+
 @Entity
 public class ComicBean {
 
     private String cover;
+    @Id
     private String name;
     private String comicId;
     private String description;

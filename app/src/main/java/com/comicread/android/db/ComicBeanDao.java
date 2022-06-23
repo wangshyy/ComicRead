@@ -15,7 +15,7 @@ import com.comicread.android.data.ComicBean;
 /** 
  * DAO for table "COMIC_BEAN".
 */
-public class ComicBeanDao extends AbstractDao<ComicBean, Void> {
+public class ComicBeanDao extends AbstractDao<ComicBean, String> {
 
     public static final String TABLENAME = "COMIC_BEAN";
 
@@ -25,7 +25,7 @@ public class ComicBeanDao extends AbstractDao<ComicBean, Void> {
      */
     public static class Properties {
         public final static Property Cover = new Property(0, String.class, "cover", false, "COVER");
-        public final static Property Name = new Property(1, String.class, "name", false, "NAME");
+        public final static Property Name = new Property(1, String.class, "name", true, "NAME");
         public final static Property ComicId = new Property(2, String.class, "comicId", false, "COMIC_ID");
         public final static Property Description = new Property(3, String.class, "description", false, "DESCRIPTION");
         public final static Property Author = new Property(4, String.class, "author", false, "AUTHOR");
@@ -46,7 +46,7 @@ public class ComicBeanDao extends AbstractDao<ComicBean, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"COMIC_BEAN\" (" + //
                 "\"COVER\" TEXT," + // 0: cover
-                "\"NAME\" TEXT," + // 1: name
+                "\"NAME\" TEXT PRIMARY KEY NOT NULL ," + // 1: name
                 "\"COMIC_ID\" TEXT," + // 2: comicId
                 "\"DESCRIPTION\" TEXT," + // 3: description
                 "\"AUTHOR\" TEXT," + // 4: author
@@ -130,8 +130,8 @@ public class ComicBeanDao extends AbstractDao<ComicBean, Void> {
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public String readKey(Cursor cursor, int offset) {
+        return cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1);
     }    
 
     @Override
@@ -158,20 +158,22 @@ public class ComicBeanDao extends AbstractDao<ComicBean, Void> {
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(ComicBean entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final String updateKeyAfterInsert(ComicBean entity, long rowId) {
+        return entity.getName();
     }
     
     @Override
-    public Void getKey(ComicBean entity) {
-        return null;
+    public String getKey(ComicBean entity) {
+        if(entity != null) {
+            return entity.getName();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(ComicBean entity) {
-        // TODO
-        return false;
+        return entity.getName() != null;
     }
 
     @Override

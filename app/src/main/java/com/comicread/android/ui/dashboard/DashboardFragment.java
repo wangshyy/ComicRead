@@ -65,7 +65,7 @@ public class DashboardFragment extends Fragment {
         searchRecyclerView = binding.searchRecyclerView;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         searchRecyclerView.setLayoutManager(linearLayoutManager);
-        recyclerViewAdapter = new RecyclerViewAdapter(mComicList);
+        recyclerViewAdapter = new RecyclerViewAdapter(mComicList,true);
         searchRecyclerView.setAdapter(recyclerViewAdapter);
         search();
 
