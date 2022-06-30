@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.comicread.android.db.ComicBeanDao;
 import com.comicread.android.db.DaoMaster;
 import com.comicread.android.db.DaoSession;
 import com.comicread.android.ui.comicdetail.ComicDetailActivity;
+import com.comicread.android.ui.notifications.HistoryFragment;
 import com.comicread.android.util.ComicBeanDaoUtil;
 
 import java.util.List;
@@ -126,19 +128,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             });
 
+            homeViewHolder.deleteCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    int position = homeViewHolder.getAdapterPosition();
+                    ComicBean comic = mComicList.get(position);
+                    if (b) {
+                        Log.d("12333",position+":勾选了");
+                        HistoryFragment.addDeleteList(comic);
+                    } else {
+                        Log.d("12333",position+":未勾选");
+                        HistoryFragment.removeDeleteList(comic);
+                    }
+                }
+            });
 
-
-//            homeViewHolder.deleteCb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//                @Override
-//                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                    int position = homeViewHolder.getAdapterPosition();
-//                    ComicBean comic = mComicList.get(position);
-//                    if (b) {
-//                        ComicBeanDaoUtil comicBeanDao = new ComicBeanDaoUtil(view.getContext(), DB_HISTORY);
-//                        comicBeanDao.deleteComicByClass(comic);
-//                    }
-//                }
-//            });
             return homeViewHolder;
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item_footer,parent,false);

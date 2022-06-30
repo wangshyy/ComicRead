@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.RoundedCorner;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.comicread.android.R;
 import com.comicread.android.data.ComicBean;
 import com.comicread.android.ui.comicdetail.ComicDetailActivity;
+import com.comicread.android.ui.notifications.FavoritesFragment;
 import com.comicread.android.util.ComicBeanDaoUtil;
 
 import java.util.ArrayList;
@@ -27,14 +29,22 @@ import java.util.List;
 
 public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder>{
     private List<ComicBean> favoriteComicsList = new ArrayList<>();
+    private boolean isShowCheckBox = false;
+
+    public void setIsShowCheckBox(boolean b){
+        isShowCheckBox = b;
+        notifyDataSetChanged();
+    }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView favoriteComicImg;
         private TextView favoriteComicName;
+        private CheckBox deleteCb;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             favoriteComicImg = itemView.findViewById(R.id.favorite_comics_img);
             favoriteComicName = itemView.findViewById(R.id.favorite_comics_name);
+            deleteCb = itemView.findViewById(R.id.delete_cb);
         }
     }
     public GridViewAdapter(List<ComicBean> comicList){
@@ -66,6 +76,16 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
                 view.getContext().startActivity(intent);
             }
         });
+
+        viewHolder.deleteCb.setOnCheckedChangeListener((v,b)->{
+            int position = viewHolder.getAdapterPosition();
+            ComicBean comic = favoriteComicsList.get(position);
+            if (b){
+                FavoritesFragment.addDeleteList(comic);
+            }else{
+                FavoritesFragment.removeDeleteList(comic);
+            }
+        });
         return viewHolder;
     }
 
@@ -76,6 +96,11 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         RequestOptions requestOptions = RequestOptions.bitmapTransform(roundedCorners);
         Glide.with(holder.itemView.getContext()).load(Uri.parse(comic.getCover())).apply(requestOptions).into(holder.favoriteComicImg);
         holder.favoriteComicName.setText(comic.getName());
+
+        if (isShowCheckBox)
+            holder.deleteCb.setVisibility(View.VISIBLE);
+        else
+            holder.deleteCb.setVisibility(View.GONE);
     }
 
     @Override

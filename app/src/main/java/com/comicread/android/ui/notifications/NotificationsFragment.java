@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
@@ -48,7 +49,7 @@ public class NotificationsFragment extends Fragment {
 
         tabLayout = binding.tabLayout;
         viewPager2 = binding.viewPager2;
-        viewPager2.setAdapter(new FragmentAdapter(getChildFragmentManager()));
+        viewPager2.setAdapter(new FragmentAdapter(getChildFragmentManager(),getLifecycle()));
         TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
@@ -71,10 +72,12 @@ public class NotificationsFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
     private class FragmentAdapter extends FragmentStateAdapter {
 
-        public FragmentAdapter(@NonNull FragmentManager fragmentManager) {
-            super(fragmentManager);
+
+        public FragmentAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
+            super(fragmentManager, lifecycle);
         }
 
         @NonNull

@@ -45,7 +45,6 @@ public class ComicBeanDaoUtil{
     public void deleteComicByClass(ComicBean comic){
         comicBeanDao.delete(comic);
     }
-
     //查询所有
     public List<ComicBean> queryAll(){
         List<ComicBean> comicList = comicBeanDao.queryBuilder().list();
